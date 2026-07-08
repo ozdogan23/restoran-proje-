@@ -1,4 +1,4 @@
-éfrom flask import Flask, request
+from flask import Flask, request
 import psycopg2
 import os # Şifreleri gizlemek için gerekli kütüphane
 
