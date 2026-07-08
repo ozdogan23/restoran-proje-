@@ -1,13 +1,14 @@
-from restoran import veritabanina_baglan # Restoran dosyasındaki bağlantıyı kullan
 from flask import Blueprint, request, redirect, url_for, session
 import psycopg2
 import os
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
+# Buraya kendi bağlantı fonksiyonunu tekrar ekle (bağımsız olsun)
 def veritabanina_baglan():
     return psycopg2.connect(os.environ.get('DATABASE_URL'), sslmode='require')
 
+# ... (admin.py kodlarının geri kalanı aynı kalsın) ...
 def sayfa_yapisi(icerik):
     return f"""
     <!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0">
