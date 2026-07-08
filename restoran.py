@@ -13,12 +13,10 @@ app.register_blueprint(admin_bp)
 # ... (Kendi veritabanı fonksiyonların ve diğer tüm kodların olduğu gibi kalacak) ...
 # --- VERİTABANI BAĞLANTI FONKSİYONU ---
 def veritabanina_baglan():
-    # Sadece ortam değişkenini kullan, asla şifreyi buraya yazma
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-    
-    # sslmode='require' Render'da veritabanı bağlantısı için gereklidir
-    return psycopg2.connect(DATABASE_URL, sslmode='require')
-
+    url = os.environ.get('DATABASE_URL')
+    if not url:
+        raise Exception("DATABASE_URL ortam değişkeni bulunamadı!")
+    return psycopg2.connect(url, sslmode='require')
 # Kategoriler için kapak resimleri
 RESIM_MAP = {
     "Ana Yemekler": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop",
