@@ -98,5 +98,4 @@ def admin_cikis():
     session.pop('giris', None)
     return redirect(url_for('admin_giris'))
 
-if __name__ == '__main__':
-    admin_app.run(port=5000, debug=True)
+
