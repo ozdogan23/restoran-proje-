@@ -1,5 +1,4 @@
-
-import admin_panel
+import admin
 import os
 from flask import Flask, request 
 import psycopg2
