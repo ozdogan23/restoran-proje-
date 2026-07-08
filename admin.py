@@ -1,8 +1,8 @@
-from flask import Blueprint, request, redirect, url_for, session, render_template_string
+from flask import Blueprint, request, redirect, url_for, session
 import psycopg2
 import os
 
-# Blueprint tanımlaması (Tüm linkler otomatik olarak /admin ile başlar)
+# admin_bp ismini Blueprint olarak tanımlıyoruz
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 ADMIN_SIFRE = os.environ.get('ADMIN_SIFRE', '1234')
@@ -16,7 +16,7 @@ def sayfa_yapisi(icerik):
     <style>
         body {{ font-family: sans-serif; background: #121212; color: #fff; display: flex; justify-content: center; padding: 20px; }}
         .container {{ width: 90%; max-width: 500px; background: #1a1a1a; padding: 30px; border-radius: 20px; }}
-        input, select {{ width: 100%; padding: 10px; margin: 5px 0; background: #222; border: 1px solid #444; color: white; }}
+        input {{ width: 100%; padding: 10px; margin: 5px 0; background: #222; border: 1px solid #444; color: white; }}
         button {{ width: 100%; padding: 10px; background: #e65100; border: none; color: white; cursor: pointer; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; }}
         td, th {{ padding: 10px; border-bottom: 1px solid #333; }}
@@ -39,15 +39,12 @@ def admin_giris():
 
 @admin_bp.route('/')
 def admin_anasayfa():
-    arama = request.args.get('q', '')
     baglanti = veritabanina_baglan()
     cursor = baglanti.cursor()
-    query = "SELECT Urunler.urun_id, Urunler.urun_adi, Urunler.fiyat, Kategoriler.kategori_adi FROM Urunler JOIN Kategoriler ON Urunler.kategori_id = Kategoriler.kategori_id"
-    if arama: query += f" WHERE Urunler.urun_adi ILIKE '%{arama}%'"
-    cursor.execute(query)
+    cursor.execute("SELECT urun_id, urun_adi, fiyat FROM Urunler")
     urunler = cursor.fetchall()
     cursor.close(); baglanti.close()
-    tablo = "".join([f"<tr><td>{u[1]}</td><td>{u[2]} TL</td><td>{u[3]}</td><td><a href='/admin/sil/{u[0]}'>❌</a></td></tr>" for u in urunler])
+    tablo = "".join([f"<tr><td>{u[1]}</td><td>{u[2]} TL</td><td><a href='/admin/sil/{u[0]}'>❌</a></td></tr>" for u in urunler])
     return sayfa_yapisi(f"<h2>Yönetim</h2><table>{tablo}</table><a href='/admin/cikis' class='btn'>Çıkış</a>")
 
 @admin_bp.route('/sil/<int:id>')
