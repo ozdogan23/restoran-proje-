@@ -1,13 +1,14 @@
 from flask import Flask
 import os
-import psycopg2
-from admin import admin_bp  # <--- Admin'i buraya ekliyoruz
+from admin import admin_bp  # admin.py'yi çağır
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'pinar23_gizli_anahtar')
+app.secret_key = 'pinar23_gizli_anahtar'
 
-# Admin Blueprint'ini uygulamaya dahil ediyoruz
+# Admin paneli artık restoran.py'nin bir parçası
 app.register_blueprint(admin_bp)
+
+# ... (Kendi veritabanı fonksiyonların ve menü kodların aynen kalsın) ...
 
 # ... (Kendi veritabanı fonksiyonların ve diğer tüm kodların olduğu gibi kalacak) ...
 # --- VERİTABANI BAĞLANTI FONKSİYONU ---
