@@ -1,3 +1,16 @@
+from flask import Blueprint, request, redirect, url_for, session
+
+# 'admin' ismi, bu dosyadaki rotaların /admin ile başlayacağını Flask'a söyler
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+
+@admin_bp.route('/giris', methods=['GET', 'POST']) # Bu artık /admin/giris olur
+def admin_giris():
+    # ... (giriş kodların aynı kalsın) ...
+
+@admin_bp.route('/') # Bu artık /admin/ olur
+def admin_anasayfa():
+    # ... (diğer kodların aynı kalsın) ...
+
 from flask import Flask, request, redirect, url_for, session
 import psycopg2
 import os # Şifreleri gizlemek için eklendi
