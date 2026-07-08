@@ -1,3 +1,6 @@
+from admin import admin_bp
+app.register_blueprint(admin_bp)
+
 import admin
 import os
 from flask import Flask, request 
