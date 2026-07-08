@@ -6,22 +6,11 @@ app = Flask(__name__)
 
 # --- VERİTABANI BAĞLANTI FONKSİYONU ---
 def veritabanina_baglan():
-    # Render'dan gelen DATABASE_URL değişkenini kontrol et
-    # Eğer bu değişken yoksa yerel (localhost) ayarları kullan
+    # Sadece ortam değişkenini kullan, asla şifreyi buraya yazma
     DATABASE_URL = os.environ.get('DATABASE_URL')
     
-    if DATABASE_URL:
-        # Render'da çalışıyorsak direkt URL ile bağlan
-        return psycopg2.connect(DATABASE_URL, sslmode='require')
-    else:
-        # Kendi bilgisayarında çalışıyorsan (localhost)
-        return psycopg2.connect(
-            dbname="restoran_db",
-            user="postgres",
-            password="pinar23.", 
-            host="localhost",
-            port="5432"
-        )
+    # sslmode='require' Render'da veritabanı bağlantısı için gereklidir
+    return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 # Kategoriler için kapak resimleri
 RESIM_MAP = {
