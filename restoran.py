@@ -6,15 +6,14 @@ app = Flask(__name__)
 
 # --- VERİTABANI BAĞLANTISI (GÜVENLİ) ---
 def veritabanina_baglan():
-    # Eğer Render'daysak DATABASE_URL'i kullan, yereldeysek eski sisteme devam et
+    # Render'da DATABASE_URL varsa onu kullan, yoksa yerel ayarlarını kullan
     if 'DATABASE_URL' in os.environ:
         return psycopg2.connect(os.environ['DATABASE_URL'])
     else:
-        # Kendi bilgisayarındaki yerel ayarların
         return psycopg2.connect(
             dbname=os.environ.get('DB_NAME', 'restoran_db'),
             user=os.environ.get('DB_USER', 'postgres'),
-            password=os.environ.get('DB_PASSWORD', 'pinar23.'),
+            password=os.environ.get('DB_PASSWORD'), # Artık buradan çekecek
             host=os.environ.get('DB_HOST', 'localhost'),
             port=os.environ.get('DB_PORT', '5432')
         )
