@@ -1,13 +1,15 @@
-from admin import admin_bp
-app.register_blueprint(admin_bp)
-
-import admin
+from flask import Flask
 import os
-from flask import Flask, request 
 import psycopg2
+from admin import admin_bp  # <--- Admin'i buraya ekliyoruz
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'pinar23_gizli_anahtar')
 
+# Admin Blueprint'ini uygulamaya dahil ediyoruz
+app.register_blueprint(admin_bp)
+
+# ... (Kendi veritabanı fonksiyonların ve diğer tüm kodların olduğu gibi kalacak) ...
 # --- VERİTABANI BAĞLANTI FONKSİYONU ---
 def veritabanina_baglan():
     # Sadece ortam değişkenini kullan, asla şifreyi buraya yazma
