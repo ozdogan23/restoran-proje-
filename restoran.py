@@ -1,4 +1,4 @@
-from flask import Flask, request
+éfrom flask import Flask, request
 import psycopg2
 import os # Şifreleri gizlemek için gerekli kütüphane
 
@@ -6,14 +6,18 @@ app = Flask(__name__)
 
 # --- VERİTABANI BAĞLANTISI (GÜVENLİ) ---
 def veritabanina_baglan():
-    return psycopg2.connect(
-        dbname=os.environ.get('DB_NAME', 'restoran_db'),
-        user=os.environ.get('DB_USER', 'postgres'),
-        password=os.environ.get('DB_PASSWORD', 'pinar23.'), # Render panelinde burayı değiştireceksin
-        host=os.environ.get('DB_HOST', 'localhost'),
-        port=os.environ.get('DB_PORT', '5432')
-    )
-
+    # Eğer Render'daysak DATABASE_URL'i kullan, yereldeysek eski sisteme devam et
+    if 'DATABASE_URL' in os.environ:
+        return psycopg2.connect(os.environ['DATABASE_URL'])
+    else:
+        # Kendi bilgisayarındaki yerel ayarların
+        return psycopg2.connect(
+            dbname=os.environ.get('DB_NAME', 'restoran_db'),
+            user=os.environ.get('DB_USER', 'postgres'),
+            password=os.environ.get('DB_PASSWORD', 'pinar23.'),
+            host=os.environ.get('DB_HOST', 'localhost'),
+            port=os.environ.get('DB_PORT', '5432')
+        )
 # Kategoriler için kapak resimleri
 RESIM_MAP = {
     "Ana Yemekler": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop",
