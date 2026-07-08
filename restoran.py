@@ -160,5 +160,6 @@ def kategori_detay(ad):
     return html_ciktisi
 
 
-if __name__ == '__main__':
+    if __name__ == '__main__':
+    app.run() # (app.run yazısından önce mutlaka boşluk/tab olmalı)
     
