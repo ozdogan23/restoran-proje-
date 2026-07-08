@@ -1,3 +1,4 @@
+from restoran import veritabanina_baglan # Restoran dosyasındaki bağlantıyı kullan
 from flask import Blueprint, request, redirect, url_for, session
 import psycopg2
 import os
